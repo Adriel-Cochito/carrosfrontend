@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { Carro } from 'src/models/Carro';
 
-class UsuarioService {
-  serverPath = "/api/characters";
+class CarroService {
+  serverPath = "/api/carros";
 
-  save(usuario){
-    return axios.post("http://localhost:8080" + this.serverPath,usuario)
+  save(carro){
+    return axios.post("http://localhost:8080" + this.serverPath,carro)
   }
 
   getAllPaginated(page:number,limit:number){
@@ -25,12 +25,12 @@ class UsuarioService {
     return axios.get<Carro>(`http://localhost:8080${this.serverPath}/${id}`)
   }
 
-  update(id:number,personagem){
-    return axios.put(`http://localhost:8080${this.serverPath}/${id}`,personagem)
+  update(id:number,carro){
+    return axios.put(`http://localhost:8080${this.serverPath}/${id}`,carro)
   }
 
   search(formData: { fabricante: string; modelo: string; status: string }) {
-    return axios.get<Carro[]>("http://localhost:8080/api/characters/search",{
+    return axios.get<Carro[]>("http://localhost:8080/api/carros/search",{
       headers:{
         modelo: formData.modelo,
         land: formData.fabricante,
@@ -39,4 +39,4 @@ class UsuarioService {
     })
   }
 }
-export default UsuarioService;
+export default CarroService;

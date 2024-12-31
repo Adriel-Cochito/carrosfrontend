@@ -1,124 +1,155 @@
 import {
-  Box, Button,
+  Box,
   Card,
   CardHeader,
-  Divider, IconButton, Modal,
+  Divider,
+  Modal,
   Table,
   TableBody,
   TableCell,
   TableContainer,
-  TableHead, TablePagination,
-  TableRow, Tooltip, Typography, useTheme
+  TableHead,
+  TablePagination,
+  TableRow,
+  Typography,
+  useTheme
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-
-import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
-import Label from '../../../components/Label';
-import DeleteItemConfirmationModal from '../../../components/DeleteItemConfirmationModal';
 import toast from 'react-hot-toast';
-import CarroModal from './CarroModal';
 import { useNavigate } from 'react-router';
 import SearchBar from '../../../components/SearchBar';
 import CarroService from 'src/services/CarroService';
+import StatusService from 'src/services/StatusService';
 import { Carro, CarroStatus } from 'src/models/Carro';
+import DeleteItemConfirmationModal from '../../../components/DeleteItemConfirmationModal';
+import CarroModal from './CarroModal';
+import Label from '../../../components/Label';
 
+const CarrosTable: React.FC = () => {
+  const navigate = useNavigate();
+  const theme = useTheme();
 
-const CarrosTable:React.FC = () =>{
-  const navigate = useNavigate()
-  const toastSucesso = () => toast.success("Carro deletado com sucesso",{position: 'top-center'})
-  const toastError = () => toast.error("Ops, algo de errado aconteceu.",{position: 'top-center'})
-  const handleDelete = (carro:Carro) =>{
-    //setOpen(true)
-    setSelectedRow(carro)
-    setOpenDelete(true)
-  }
+  // Estados
+  const [open, setOpen] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const [carros, setCarros] = useState<Carro[]>([]);
+  const [selectedRow, setSelectedRow] = useState<Carro | null>(null);
+  const [page, setPage] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(10);
+  const [total, setTotal] = useState<number>(0);
+  const [statusMap, setStatusMap] = useState<Record<string, { text: string; color: string }>>({});
+
+  const carroService = new CarroService();
+  const statusService = new StatusService();
+
+  // Toasts
+  const toastSucesso = () => toast.success("Carro deletado com sucesso", { position: 'top-center' });
+  const toastError = () => toast.error("Ops, algo de errado aconteceu.", { position: 'top-center' });
+
+  // Métodos
+  const handleDelete = (carro: Carro) => {
+    setSelectedRow(carro);
+    setOpenDelete(true);
+  };
+
   const handleCloseDelete = () => {
-    setOpenDelete(false)
-  }
+    setOpenDelete(false);
+  };
+
   const handleConfirmDelete = () => {
-    carroService.delete(selectedRow.id).then(() =>{
-      carroService.getAllPaginated(page,limit).then((response) =>{
-        setTotal(parseInt(response.headers['x-total-count']))
+    if (!selectedRow) return;
+
+    carroService.delete(selectedRow.id).then(() => {
+      carroService.getAllPaginated(page, limit).then((response) => {
+        const totalCount = parseInt(response.headers['x-total-count']);
+        setTotal(isNaN(totalCount) ? 0 : totalCount);
         setCarros(response.data);
-        setOpenDelete(false)
-        toastSucesso()
-      })
+        setOpenDelete(false);
+        toastSucesso();
+      });
+    }).catch(() => {
+      setOpenDelete(false);
+      toastError();
+    });
+  };
 
-    }).catch((error) =>{
-      setOpenDelete(false)
-      toastError()
-    })
-
-  }
-  const getStatusLabel = (status:CarroStatus) => {
-    const map ={
+  const getStatusLabel = (status: CarroStatus) => {
+    const map: Record<CarroStatus, { text: string; color: "success" | "warning" | "error" }> = {
       Novo: {
         text: "Novo",
-        color: 'success'
+        color: "success",
       },
       SemiNovo: {
         text: "Semi-novo",
-        color: 'warning'
+        color: "warning",
       },
-      usado: {
-        text: 'usado',
-        color: 'error'
-      }
-    }
-    const {text,color }: any = map[status]
-    return <Label color={color}>{text}</Label>
-  }
+      Usado: {
+        text: "Usado",
+        color: "error",
+      },
+    };
+  
+    const { text, color } = map[status];
+    return <Label color={color}>{text}</Label>;
+  };
+  
 
-  const [open,setOpen] = useState(false)
-  const [openDelete, setOpenDelete] = useState(false)
-  const [showProfile, setShowProfile] = useState(false)
-  const [carros, setCarros] = useState<Carro[]>([]);
-  const [selectedRow, setSelectedRow] = useState(null)
-  const carroService = new CarroService();
-  const [page,setPage] = useState<number>(0);
-  const [limit,setLimit] = useState<number>(10);;
-  const [total,setTotal]= useState<number>(0);
-  const theme = useTheme();
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-  const handleClose = () =>{
-    setOpen(false)
-  }
-  const handleCloseProfile = () =>{
-    setShowProfile(false)
-  }
-  const handleOpenProfile = (personagem) => {
-    setSelectedRow(personagem)
-    setShowProfile(true)
+  const handleCloseProfile = () => {
+    setShowProfile(false);
+  };
 
-  }
-  const handlePageChance =(event,newPage) =>{
-    carroService.getAllPaginated(newPage,limit).then((response) =>{
-      setTotal(parseInt(response.headers['x-total-count']))
+  const handleOpenProfile = (carro: Carro) => {
+    setSelectedRow(carro);
+    setShowProfile(true);
+  };
+
+  const handlePageChange = (event: unknown, newPage: number) => {
+    carroService.getAllPaginated(newPage, limit).then((response) => {
+      const totalCount = parseInt(response.headers['x-total-count']);
+      setTotal(isNaN(totalCount) ? 0 : totalCount);
       setCarros(response.data);
-    })
-    setPage(newPage)
-  }
-  const openEditPersonagem = (personagem) =>{
-    navigate(`/management/edit-user/${personagem.id}`,{state:{mode:'update'}})
-  }
-  const handleLimitChange = (event) =>{
-    setPage(0)
-    setLimit(parseInt(event.target.value))
-    carroService.getAllPaginated(0,parseInt(event.target.value)).then((response) =>{
-      setTotal(parseInt(response.headers['x-total-count']))
-      setCarros(response.data);
-    })
+    });
+    setPage(newPage);
+  };
 
-  }
+  const handleLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newLimit = parseInt(event.target.value);
+    setLimit(newLimit);
+    setPage(0);
+    carroService.getAllPaginated(0, newLimit).then((response) => {
+      const totalCount = parseInt(response.headers['x-total-count']);
+      setTotal(isNaN(totalCount) ? 0 : totalCount);
+      setCarros(response.data);
+    });
+  };
+
   useEffect(() => {
-     carroService.getAllPaginated(0,10).then((response) =>{
-       setTotal(parseInt(response.headers['x-total-count']))
-       setCarros(response.data);
+    carroService.getAllPaginated(0, 10).then((response) => {
+      const totalCount = parseInt(response.headers['x-total-count']);
+      setTotal(isNaN(totalCount) ? 0 : totalCount);
+      setCarros(response.data);
+    }).catch(() => {
+      toastError();
+    });
 
-     })
+    statusService.getAll().then((response) => {
+      const map: Record<string, { text: string; color: string }> = {};
+      response.data.forEach((status: any) => {
+        map[status.value] = {
+          text: status.name,
+          color: status.value === 'Novo' ? 'success' : status.value === 'SemiNovo' ? 'warning' : 'error'
+        };
+      });
+      setStatusMap(map);
+    });
   }, []);
+
+  // Render
   return (
     <Card>
       <CardHeader />
@@ -129,124 +160,33 @@ const CarrosTable:React.FC = () =>{
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell>modelo</TableCell>
+              <TableCell>Modelo</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>País</TableCell>
-              <TableCell align="right">Actions</TableCell>
+              <TableCell align="right">Ações</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-              {carros.map((carro:Carro) =>{
-                return (
-                  <TableRow hover key={carro.id}>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap>
-
-                      {carro.id}
-                    </Typography>
-                  </TableCell>
-
+            {carros.map((carro) => (
+              <TableRow hover key={carro.id}>
                 <TableCell>
-                  <Typography
-                    variant="body2"
-                    fontWeight="bold"
-                    color="text.secondary"
-                    gutterBottom
-                    noWrap>
-                    {carro.ano}
+                  <Typography variant="body1" fontWeight="bold" noWrap>
+                    {carro.id}
                   </Typography>
                 </TableCell>
-
                 <TableCell>
-                  <Typography
-                    variant="body2"
-                    fontWeight="bold"
-                    color="text.secondary"
-                    gutterBottom
-                    noWrap>
+                  <Typography variant="body2" fontWeight="bold" noWrap>
                     {carro.modelo}
                   </Typography>
                 </TableCell>
-
+                <TableCell>{getStatusLabel(carro.status)}</TableCell>
                 <TableCell>
-                  <Typography
-                    variant="body1"
-                    fontWeight="bold"
-                    color="text.secondary"
-                    gutterBottom
-                    noWrap>
-
-                    {getStatusLabel(  carro.status)}
-
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography
-                    variant="body1"
-                    fontWeight="bold"
-                    color="text.secondary"
-                    gutterBottom
-                    noWrap>
+                  <Typography variant="body1" fontWeight="bold" noWrap>
                     {carro.pais}
                   </Typography>
                 </TableCell>
-                <TableCell align="right">
-                  <Tooltip title="Ver Mais" arrow>
-                    <IconButton
-                      onClick={() => handleOpenProfile(carro)}
-                      sx={{
-                        '&:hover': {
-                          background: theme.colors.primary.lighter
-                        },
-                        color: theme.palette.primary.main
-                      }}
-                      color="inherit"
-                      size="small">
-                      <AddTwoToneIcon fontSize="small" />
-                    </IconButton>
-                  </Tooltip>
-
-                  <Tooltip title="Editar Carro" arrow>
-                    <IconButton
-                      onClick={() => openEditPersonagem(carro)}
-                      sx={{
-                        '&:hover': {
-                          background: theme.colors.primary.lighter
-                        },
-                        color: theme.palette.primary.main
-                      }}
-                      color="inherit"
-                      size="small">
-                      <EditTwoToneIcon fontSize="small" />
-                    </IconButton>
-                  </Tooltip>
-
-                  <Tooltip title="Deletar Carro" arrow>
-                    <IconButton
-                      onClick={() => handleDelete(carro)}
-                      sx={{
-                        '&:hover': {
-                          background: theme.colors.error.lighter
-                        },
-                        color: theme.palette.error.main
-                      }}
-                      color="inherit"
-                      size="small">
-                      <DeleteTwoToneIcon fontSize="small" />
-                    </IconButton>
-                  </Tooltip>
-                </TableCell>
               </TableRow>
-
-                )
-              })}
-
-
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -257,30 +197,20 @@ const CarrosTable:React.FC = () =>{
           page={page}
           rowsPerPage={limit}
           onRowsPerPageChange={handleLimitChange}
-          onPageChange={handlePageChance}
-          rowsPerPageOptions={[5,10,25,50,70]}
-        >
-        </TablePagination>
-        <Modal open={open} onClose={handleClose}>
-          <Box>
-            <Typography>
-              Teste
-            </Typography>
-            <Button variant="contained"  onClick={handleClose}></Button>
-          </Box>
-        </Modal>
-
-
+          onPageChange={handlePageChange}
+          rowsPerPageOptions={[5, 10, 25, 50, 70]}
+        />
       </Box>
-
       <DeleteItemConfirmationModal
         open={openDelete}
         onClose={handleCloseDelete}
-        onConfirm={handleConfirmDelete} />
-
-      {showProfile && <CarroModal carro={selectedRow} onClose={handleCloseProfile}></CarroModal> }
-
+        onConfirm={handleConfirmDelete}
+      />
+      {showProfile && selectedRow && (
+        <CarroModal carro={selectedRow} onClose={handleCloseProfile} />
+      )}
     </Card>
-  )
-}
-export default CarrosTable
+  );
+};
+
+export default CarrosTable;
