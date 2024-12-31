@@ -5,7 +5,7 @@ class StatusService implements DefaultService {
     return Promise.resolve({
       data: [
         { value: "Novo", name: "Novo" },
-        { value: "SemiNovo", name: "Semi-novo" },
+        { value: "Seminovo", name: "Seminovo" },
         { value: "Usado", name: "Usado" },
       ],
     });

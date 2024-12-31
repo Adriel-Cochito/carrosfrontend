@@ -29,11 +29,11 @@ class CarroService {
     return axios.put(`http://localhost:8080${this.serverPath}/${id}`,carro)
   }
 
-  search(formData: { fabricante: string; modelo: string; status: string }) {
+  search(formData: { modelo: string; fabricante: string; status: string }) {
     return axios.get<Carro[]>("http://localhost:8080/api/carros/search",{
       headers:{
         modelo: formData.modelo,
-        land: formData.fabricante,
+        fabricante: formData.fabricante,
         status: formData.status
       }
     })

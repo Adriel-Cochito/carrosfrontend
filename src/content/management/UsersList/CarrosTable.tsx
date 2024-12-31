@@ -80,8 +80,8 @@ const CarrosTable: React.FC = () => {
         text: "Novo",
         color: "success",
       },
-      SemiNovo: {
-        text: "Semi-novo",
+      Seminovo: {
+        text: "Seminovo",
         color: "warning",
       },
       Usado: {
@@ -142,7 +142,7 @@ const CarrosTable: React.FC = () => {
       response.data.forEach((status: any) => {
         map[status.value] = {
           text: status.name,
-          color: status.value === 'Novo' ? 'success' : status.value === 'SemiNovo' ? 'warning' : 'error'
+          color: status.value === 'Novo' ? 'success' : status.value === 'Seminovo' ? 'warning' : 'error'
         };
       });
       setStatusMap(map);
@@ -161,8 +161,8 @@ const CarrosTable: React.FC = () => {
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell>Modelo</TableCell>
+              <TableCell>fabricante</TableCell>
               <TableCell>Status</TableCell>
-              <TableCell>País</TableCell>
               <TableCell align="right">Ações</TableCell>
             </TableRow>
           </TableHead>
@@ -174,17 +174,23 @@ const CarrosTable: React.FC = () => {
                     {carro.id}
                   </Typography>
                 </TableCell>
+
                 <TableCell>
                   <Typography variant="body2" fontWeight="bold" noWrap>
                     {carro.modelo}
                   </Typography>
                 </TableCell>
-                <TableCell>{getStatusLabel(carro.status)}</TableCell>
+
                 <TableCell>
                   <Typography variant="body1" fontWeight="bold" noWrap>
-                    {carro.pais}
+                    {carro.fabricante}
                   </Typography>
                 </TableCell>
+
+                <TableCell>{getStatusLabel(carro.status)}</TableCell>
+
+
+
               </TableRow>
             ))}
           </TableBody>

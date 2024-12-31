@@ -58,7 +58,7 @@ const UsuarioForm:React.FC = () => {
 
   const status = [
     {value: "Novo", label: "Novo" },
-    {value: "Semiovo", label: "Semiovo" },
+    {value: "SemiNovo", label: "SemiNovo" },
     {value: 'Usado', label: "Usado"}
 
   ]

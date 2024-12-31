@@ -1,4 +1,4 @@
-export type CarroStatus = 'Novo' | 'SemiNovo' | 'Usado';
+export type CarroStatus = 'Novo' | 'Seminovo' | 'Usado';
 export interface Carro {
   id: number;
   status: CarroStatus;
