@@ -60,9 +60,9 @@ const UserBoxDescription = styled(Typography)(
 
 function HeaderUserbox() {
   const user = {
-    name: 'Leonardo Gloria',
+    name: 'Adriel Cochito',
     avatar: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
-    jobtitle: 'Project Manager'
+    jobtitle: 'Software Engineer'
   };
 
   const ref = useRef<any>(null);
