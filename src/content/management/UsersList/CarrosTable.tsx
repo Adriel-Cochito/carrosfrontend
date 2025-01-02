@@ -3,6 +3,7 @@ import {
   Card,
   CardHeader,
   Divider,
+  IconButton,
   Modal,
   Table,
   TableBody,
@@ -11,6 +12,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Tooltip,
   Typography,
   useTheme
 } from '@mui/material';
@@ -18,7 +20,10 @@ import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router';
 import SearchBar from '../../../components/SearchBar';
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import CarroService from 'src/services/CarroService';
+import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import StatusService from 'src/services/StatusService';
 import { Carro, CarroStatus } from 'src/models/Carro';
 import DeleteItemConfirmationModal from '../../../components/DeleteItemConfirmationModal';
@@ -117,6 +122,10 @@ const CarrosTable: React.FC = () => {
     setPage(newPage);
   };
 
+  const openEditCarro = (carro) =>{
+    navigate(`/management/edit-user/${carro.id}`,{state:{mode:'update'}})
+  }
+
   const handleLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newLimit = parseInt(event.target.value);
     setLimit(newLimit);
@@ -188,6 +197,53 @@ const CarrosTable: React.FC = () => {
                 </TableCell>
 
                 <TableCell>{getStatusLabel(carro.status)}</TableCell>
+
+                <TableCell align="right">
+                  <Tooltip title="Ver Mais" arrow>
+                    <IconButton
+                      onClick={() => handleOpenProfile(carro)}
+                      sx={{
+                        '&:hover': {
+                          background: theme.colors.primary.lighter
+                        },
+                        color: theme.palette.primary.main
+                      }}
+                      color="inherit"
+                      size="small">
+                      <AddTwoToneIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+
+                  <Tooltip title="Editar Carro" arrow>
+                    <IconButton
+                      onClick={() => openEditCarro(carro)}
+                      sx={{
+                        '&:hover': {
+                          background: theme.colors.primary.lighter
+                        },
+                        color: theme.palette.primary.main
+                      }}
+                      color="inherit"
+                      size="small">
+                      <EditTwoToneIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+
+                  <Tooltip title="Deletar Carro" arrow>
+                    <IconButton
+                      onClick={() => handleDelete(carro)}
+                      sx={{
+                        '&:hover': {
+                          background: theme.colors.error.lighter
+                        },
+                        color: theme.palette.error.main
+                      }}
+                      color="inherit"
+                      size="small">
+                      <DeleteTwoToneIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                </TableCell>
 
 
 
