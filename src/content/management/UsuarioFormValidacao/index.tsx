@@ -210,22 +210,10 @@ const UsuarioFormValidacao:React.FC = () => {
                     label = "fabricante"
                     name = "fabricante"
                     {...register("fabricante")}
-                    error={!! errors.fabricante }
-                    helperText={errors.fabricante?.message}
 
                   />
 
-<TextField
-                    fullWidth
-                    required
-                    id="pais"
-                    label = "pais"
-                    name = "pais"
-                    {...register("pais")}
-                    error={!! errors.pais }
-                    helperText={errors.pais?.message}
 
-                  />
 
 <TextField
                     fullWidth
@@ -234,8 +222,6 @@ const UsuarioFormValidacao:React.FC = () => {
                     label = "cor"
                     name = "cor"
                     {...register("cor")}
-                    error={!! errors.cor }
-                    helperText={errors.cor?.message}
 
                   />
 
@@ -246,9 +232,7 @@ const UsuarioFormValidacao:React.FC = () => {
                     label = "ano"
                     name = "ano"
                     {...register("ano")}
-                    error={!! errors.ano }
-                    helperText={errors.ano?.message}
-
+                    type="number"
                   />
 
 <TextField
@@ -258,8 +242,7 @@ const UsuarioFormValidacao:React.FC = () => {
                     label = "cavalosDePotencia"
                     name = "cavalosDePotencia"
                     {...register("cavalosDePotencia")}
-                    error={!! errors.cavalosDePotencia }
-                    helperText={errors.cavalosDePotencia?.message}
+                    type="number"
 
                   />
 
@@ -281,8 +264,10 @@ const UsuarioFormValidacao:React.FC = () => {
 
                 </div>
                 <div>
-                  <LocationsSelect name="pais" value={formData.pais} handleChange={handleChange} register={register} />
-
+                  <LocationsSelect name="pais"
+                  value={formData.pais}
+                  handleChange={handleChange}
+                  register={register} />
                   
                 </div>
 
