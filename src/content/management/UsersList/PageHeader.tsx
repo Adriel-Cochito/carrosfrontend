@@ -1,6 +1,7 @@
 import { Button, Grid, Typography } from '@mui/material';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import { useNavigate } from 'react-router';
+import CsvDownloader from 'src/components/CsvDownloader';
 
 const PageHeader:React.FC = () =>{
   const navigate = useNavigate();
@@ -33,6 +34,10 @@ const PageHeader:React.FC = () =>{
           Cadastrar Carros Com validacao
         </Button>
       </Grid>
+      <Grid item>
+        <CsvDownloader></CsvDownloader>
+      </Grid>
+      
     </Grid>
   );
 }
