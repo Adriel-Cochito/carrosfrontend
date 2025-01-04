@@ -9,6 +9,9 @@ import UsuarioForm from './content/management/UsuarioForm';
 import UsuarioFormValidacao from './content/management/UsuarioFormValidacao';
 import UsuarioEditForm from './content/management/UsuarioEditForm';
 import UsuarioFormEditValidacao from './content/management/UsuarioFormEditValidacao';
+import Login from './content/Login';
+import PrivateRouter from './privateRoute';
+import PrivateRoute from './privateRoute';
 
 const Loader = (Component) => (props) =>
   (
@@ -23,39 +26,44 @@ const UsersForm = Loader(lazy(() => import('src/content/management/UsersList')))
 
 const routes: RouteObject[] = [
   {
-    path: '',
-    element: <SidebarLayout />,
-    children: [
-      {
-        path: '/',
-        element: <UsersList />
-      },
-    ]
+    path: 'login',
+    element: <Login />
   },
   {
+    path: '/',
+    element: <Login />
+  },
+
+  {
     path: 'management',
-    element: <SidebarLayout />,
+    element: <PrivateRoute />,
     children: [
       {
         path: '',
-        element: <Navigate to='user-list' replace />
-      },
-      {
-        path: 'user-list',
-        element: <UsersList />
-      },
-      {
-        path: "new-user",
-        element: <UsuarioForm />
-      },
-      {
-        path: "new-user-validacao",
-        element: <UsuarioFormValidacao />
-      },
-      {
-        path: "edit-user/:id",
-        element: <UsuarioFormEditValidacao />
-      },
+        element: <PrivateRoute/>,
+        children: [
+        {
+          path: '',
+          element: <Navigate to='user-list' replace />
+        },
+        {
+          path: 'user-list',
+          element: <UsersList />
+        },
+        {
+          path: "new-user",
+          element: <UsuarioForm />
+        },
+        {
+          path: "new-user-validacao",
+          element: <UsuarioFormValidacao />
+        },
+        {
+          path: "edit-user/:id",
+          element: <UsuarioFormEditValidacao />
+        }
+      ]
+    }
 
 
     ]
