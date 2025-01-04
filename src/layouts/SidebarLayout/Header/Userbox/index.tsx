@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 
@@ -22,6 +22,7 @@ import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
+import LoginService from 'src/services/LoginService';
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -59,15 +60,26 @@ const UserBoxDescription = styled(Typography)(
 );
 
 function HeaderUserbox() {
+
+
   const navigate = useNavigate();
-  const user = {
-    name: 'Adriel Cochito',
-    avatar: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
-    jobtitle: 'Software Engineer'
-  };
+  const [user, setUser] = useState({
+    nome: '',
+    avatar: '',
+    cargo: ''
+  });
 
   const ref = useRef<any>(null);
   const [isOpen, setOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    let loginService = new LoginService();
+    loginService.getMyProfile().then(response =>{
+      console.log(response.data);
+      setUser(response.data)
+    })
+
+  }, []);
 
   const handleOpen = (): void => {
     setOpen(true);
@@ -85,12 +97,12 @@ function HeaderUserbox() {
   return (
     <>
       <UserBoxButton color="secondary" ref={ref} onClick={handleOpen}>
-        <Avatar variant="rounded" alt={user.name} src={user.avatar} />
+        <Avatar variant="rounded" alt={user.nome} src={user.avatar} />
         <Hidden mdDown>
           <UserBoxText>
-            <UserBoxLabel variant="body1">{user.name}</UserBoxLabel>
+            <UserBoxLabel variant="body1">{user.nome}</UserBoxLabel>
             <UserBoxDescription variant="body2">
-              {user.jobtitle}
+              {user.cargo}
             </UserBoxDescription>
           </UserBoxText>
         </Hidden>
@@ -112,11 +124,11 @@ function HeaderUserbox() {
         }}
       >
         <MenuUserBox sx={{ minWidth: 210 }} display="flex">
-          <Avatar variant="rounded" alt={user.name} src={user.avatar} />
+          <Avatar variant="rounded" alt={user.nome} src={user.avatar} />
           <UserBoxText>
-            <UserBoxLabel variant="body1">{user.name}</UserBoxLabel>
+            <UserBoxLabel variant="body1">{user.nome}</UserBoxLabel>
             <UserBoxDescription variant="body2">
-              {user.jobtitle}
+              {user.cargo}
             </UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>
