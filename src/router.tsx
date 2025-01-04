@@ -40,7 +40,7 @@ const routes: RouteObject[] = [
     children: [
       {
         path: '',
-        element: <PrivateRoute/>,
+        element: <SidebarLayout/>,
         children: [
         {
           path: '',

@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 
 import {
   Avatar,
@@ -59,6 +59,7 @@ const UserBoxDescription = styled(Typography)(
 );
 
 function HeaderUserbox() {
+  const navigate = useNavigate();
   const user = {
     name: 'Adriel Cochito',
     avatar: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
@@ -75,6 +76,11 @@ function HeaderUserbox() {
   const handleClose = (): void => {
     setOpen(false);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate("/Login")
+  }
 
   return (
     <>
@@ -135,7 +141,7 @@ function HeaderUserbox() {
         </List>
         <Divider />
         <Box sx={{ m: 1 }}>
-          <Button color="primary" fullWidth>
+          <Button onClick={handleLogout} color="primary" fullWidth>
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
             Sign out
           </Button>

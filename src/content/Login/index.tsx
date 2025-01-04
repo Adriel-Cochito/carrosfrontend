@@ -12,12 +12,15 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
+    setLoading(true);
+    setError('');
     let loginService = new LoginService();
     loginService.logar(username, password).then((response) => {
       console.log(response.data);
       localStorage.setItem("token", response.data['token']);
       navigate("/management");
     }).catch((error) => {
+        setLoading(false);
       setError("Nome de usuário ou senha inválidos");
     });
     
