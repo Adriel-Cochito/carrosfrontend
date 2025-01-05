@@ -19,16 +19,17 @@ import TextField from '@mui/material/TextField';
 import LocationsSelect from '../../../components/LocationsSelect';
 import DefaultSelect from '../../../components/DefaultSelect';
 import SpeciesService from '../../../services/SpeciesService';
-import UsuarioService from '../../../services/CarroService';
+import carroService from '../../../services/CarroService';
 import toast, { Toaster } from 'react-hot-toast';
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useLocation } from 'react-router-dom';
+import CarroService from '../../../services/CarroService';
 
 interface TypePayload {
   id: number;
-  name: string;
+  modelo: string;
 }
 const UsuarioFormValidacao:React.FC = () => {
   const location = useLocation();
@@ -66,42 +67,45 @@ const UsuarioFormValidacao:React.FC = () => {
   };
 
 
-  interface IFormInput{
-    name: string;
-    gender: "",
-    status: "Unknow",
-    location: "",
-    species: "",
-    type: "",
-    episodeCount: ""
+  interface IFormInput {
+    modelo: string; // campo obrigatório
+    pais?: string;
+    status?: string;
+    ano?: number;
+    cor?: string;
+    cavalosDePotencia?: number;
   }
+  
   const schema = yup.object().shape({
-    modelo: yup.string().required("O nome é obrigatório")
-      .min(3, "O nome deve ter mais de 3 letras.").max(20, "O nome deve ter até 20 letras."),
-    //type: yup.string().email("O campo deve ser um email válido.")
-    fabricante: yup.string(),//.required("O cpf é obrigatório").test('is-valid-cpf','O cpf é inválido.', validateCPF),
-
-    pais: yup.string(),
-    cor: yup.string(),
-    ano: yup.number(), 
-    cavalosDePotencia: yup.number(),
-    status: yup.string(),
+    modelo: yup
+      .string()
+      .required("O nome é obrigatório")
+      .min(3, "O nome deve ter mais de 3 letras.")
+      .max(20, "O nome deve ter até 20 letras."),
+    fabricante: yup.string().optional(),
+    pais: yup.string().optional(),
+    cor: yup.string().optional(),
+    ano: yup.number().optional(),
+    cavalosDePotencia: yup.number().optional(),
+    status: yup.string().optional(),
   });
+  
   const {
     register,
     handleSubmit,
     formState: {errors},
   } = useForm({resolver: yupResolver(schema)})
 
-  const onSubmit = (data:IFormInput) =>{
-    let usuarioService = new UsuarioService();
-    console.log(data);
-    usuarioService.save(formData).then((reponse =>{
-      toastSucesso();
-    })).catch((error) =>{
-      toastError()
-    })
-  }
+  const onSubmit = (data: IFormInput) => {
+    let carroService = new CarroService();
+    console.log(data);  // Verificar os dados que estão sendo enviados
+    carroService.save(data).then((response) => {
+        toastSucesso();
+    }).catch((error) => {
+        toastError();
+    });
+};
+
   const toastSucesso = () => toast.success("Usuario cadastrado com sucesso",{position: 'top-center'})
   const toastError = () => toast.error("Ops, algo de errado aconteceu.",{position: 'top-center'})
 
@@ -148,8 +152,8 @@ const UsuarioFormValidacao:React.FC = () => {
   //Não usaremos mais esse campo.
   const hadleSubmit = (event) =>{
     event.preventDefault();
-    let usuarioService = new UsuarioService();
-    usuarioService.save(formData).then((reponse =>{
+    let carroService = new CarroService();
+    carroService.save(formData).then((reponse =>{
       console.log("Salvo com sucesso");
       toastSucesso();
     })).catch((error) =>{

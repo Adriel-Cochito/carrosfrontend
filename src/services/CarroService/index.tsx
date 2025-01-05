@@ -4,8 +4,8 @@ import { Carro } from 'src/models/Carro';
 class CarroService {
   serverPath = "/api/carros";
 
-  save(carro){
-    return axios.post("http://localhost:8080" + this.serverPath,carro)
+  save(Carro){
+    return axios.post("http://localhost:8080" + this.serverPath,Carro)
   }
 
   getAllPaginated(page:number,limit:number){
@@ -25,8 +25,8 @@ class CarroService {
     return axios.get<Carro>(`http://localhost:8080${this.serverPath}/${id}`)
   }
 
-  update(id:number,carro){
-    return axios.put(`http://localhost:8080${this.serverPath}/${id}`,carro)
+  update(id:number,Carro){
+    return axios.put(`http://localhost:8080${this.serverPath}/${id}`,Carro)
   }
 
   search(formData: { modelo: string; fabricante: string; status: string }) {
