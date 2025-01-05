@@ -14,21 +14,12 @@ const PageHeader:React.FC = () =>{
            Carros Cadastrados
          </Typography>
       </Grid>
+
       <Grid item>
         <Button
           sx={{ mt: { xs: 2, md: 0 } }}
           variant="contained"
-          onClick={() => navigate("/management/new-user")}
-          startIcon={<AddTwoToneIcon fontSize="small" />}
-        >
-        Cadastrar Carros
-        </Button>
-      </Grid>
-      <Grid item>
-        <Button
-          sx={{ mt: { xs: 2, md: 0 } }}
-          variant="contained"
-          onClick={() => navigate("/management/new-user-validacao", {state:{mode:'create'}})}
+          onClick={() => navigate("/management/new-carro-validacao", {state:{mode:'create'}})}
           startIcon={<AddTwoToneIcon fontSize="small" />}
         >
           Cadastrar Carros Com validacao

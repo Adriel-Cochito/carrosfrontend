@@ -123,7 +123,7 @@ const CarrosTable: React.FC = () => {
   };
 
   const openEditCarro = (carro) =>{
-    navigate(`/management/edit-user/${carro.id}`,{state:{mode:'update'}})
+    navigate(`/management/edit-carro/${carro.id}`,{state:{mode:'update'}})
   }
 
   const handleLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {

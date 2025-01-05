@@ -12,7 +12,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useParams } from 'react-router';
 import CarroService from '../../../services/CarroService';
 
-const UsuarioEditForm:React.FC = () => {
+const CarroEditForm:React.FC = () => {
   let carroService = new CarroService();
   const {id} = useParams();
   const [idCarro, setIdCarro ] = useState(null)
@@ -188,4 +188,4 @@ const UsuarioEditForm:React.FC = () => {
   </>
   );
 }
-export default  UsuarioEditForm;
+export default  CarroEditForm;

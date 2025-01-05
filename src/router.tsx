@@ -5,13 +5,14 @@ import { RouteObject } from 'react-router';
 import SidebarLayout from 'src/layouts/SidebarLayout';
 
 import SuspenseLoader from 'src/components/SuspenseLoader';
-import UsuarioForm from './content/management/UsuarioForm';
-import UsuarioFormValidacao from './content/management/UsuarioFormValidacao';
-import UsuarioEditForm from './content/management/UsuarioEditForm';
-import UsuarioFormEditValidacao from './content/management/UsuarioFormEditValidacao';
+import UsuarioFormValidacao from './content/management/CarroFormValidacao';
+import UsuarioEditForm from './content/management/CarroEditForm';
+import UsuarioFormEditValidacao from './content/management/CarroFormEditValidacao';
 import Login from './content/Login';
 import PrivateRouter from './privateRoute';
 import PrivateRoute from './privateRoute';
+import CarroFormEditValidacao from './content/management/CarroFormEditValidacao';
+import CarroFormValidacao from './content/management/CarroFormValidacao';
 
 const Loader = (Component) => (props) =>
   (
@@ -21,8 +22,7 @@ const Loader = (Component) => (props) =>
   );
 
 // Pages
-const UsersList = Loader(lazy(() => import('src/content/management/UsersList')));
-const UsersForm = Loader(lazy(() => import('src/content/management/UsersList')));
+const UsersList = Loader(lazy(() => import('src/content/management/CarrosList')));
 
 const routes: RouteObject[] = [
   {
@@ -44,23 +44,19 @@ const routes: RouteObject[] = [
         children: [
         {
           path: '',
-          element: <Navigate to='user-list' replace />
+          element: <Navigate to='carro-list' replace />
         },
         {
-          path: 'user-list',
+          path: 'carro-list',
           element: <UsersList />
         },
         {
-          path: "new-user",
-          element: <UsuarioForm />
+          path: "new-carro-validacao",
+          element: <CarroFormValidacao />
         },
         {
-          path: "new-user-validacao",
-          element: <UsuarioFormValidacao />
-        },
-        {
-          path: "edit-user/:id",
-          element: <UsuarioFormEditValidacao />
+          path: "edit-carro/:id",
+          element: <CarroFormEditValidacao />
         }
       ]
     }

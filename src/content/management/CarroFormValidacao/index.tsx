@@ -31,7 +31,7 @@ interface TypePayload {
   id: number;
   modelo: string;
 }
-const UsuarioFormValidacao:React.FC = () => {
+const CarroFormValidacao:React.FC = () => {
   const pais = useLocation();
 
   const validateCPF = (value: string) => {
@@ -301,4 +301,4 @@ const handleChange = (e) => {
   </>
   );
 }
-export default  UsuarioFormValidacao;
+export default  CarroFormValidacao;

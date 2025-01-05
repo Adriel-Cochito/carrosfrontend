@@ -21,7 +21,7 @@ import CarroService from '../../../services/CarroService';
 import LocationsService from 'src/services/LocationsService';
 
 
-const UsuarioFormEditValidacao:React.FC = () => {
+const CarroFormEditValidacao:React.FC = () => {
   let carroService = new CarroService();
   const {id} = useParams();
   useEffect(() => {
@@ -217,4 +217,4 @@ const UsuarioFormEditValidacao:React.FC = () => {
   </>
   );
 }
-export default  UsuarioFormEditValidacao;
+export default  CarroFormEditValidacao;

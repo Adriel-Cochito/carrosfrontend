@@ -195,7 +195,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/management/user-list"
+                  to="/management/carro-list"
                   startIcon={<TableChartTwoToneIcon />}
                 >
                   Carros
