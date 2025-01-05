@@ -1,6 +1,6 @@
 import { MenuItem, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
-import LocationsService from '../../services/locationsService';
+import LocationsService from 'src/services/LocationsService';
 
 const LocationsSelect = ({name,value,handleChange,register}) =>{
   const [locations, setLocations] = useState([])
@@ -12,10 +12,10 @@ const LocationsSelect = ({name,value,handleChange,register}) =>{
     })
   }, []);
   return <TextField
-    id="locations"
+    id="pais"
     select
-    label = "Locations"
-    {...register('location')}
+    label = "pais"
+    {...register('pais')}
     name={name}
     value={value}
     onChange={handleChange}

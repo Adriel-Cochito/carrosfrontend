@@ -32,7 +32,7 @@ interface TypePayload {
   modelo: string;
 }
 const UsuarioFormValidacao:React.FC = () => {
-  const location = useLocation();
+  const pais = useLocation();
 
   const validateCPF = (value: string) => {
     // Remover caracteres não numéricos (como pontos e traços)
@@ -69,7 +69,7 @@ const UsuarioFormValidacao:React.FC = () => {
 
   interface IFormInput {
     modelo: string; // campo obrigatório
-    pais?: string;
+    pais: '';
     status?: string;
     ano?: number;
     cor?: string;
@@ -83,7 +83,7 @@ const UsuarioFormValidacao:React.FC = () => {
       .min(3, "O nome deve ter mais de 3 letras.")
       .max(20, "O nome deve ter até 20 letras."),
     fabricante: yup.string().optional(),
-    pais: yup.string().optional(),
+    pais: yup.string(),
     cor: yup.string().optional(),
     ano: yup.number().optional(),
     cavalosDePotencia: yup.number().optional(),
@@ -130,10 +130,10 @@ const UsuarioFormValidacao:React.FC = () => {
   const handleChangeNome = (e) =>{
     console.log(e.target);
   }
-  const handleChange = (e) => {
-    const {name, value} = e.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
-  }
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData((prevState) => ({ ...prevState, [name]: value }));
+};
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState<TypePayload[]>([]);
 
@@ -268,10 +268,14 @@ const UsuarioFormValidacao:React.FC = () => {
 
                 </div>
                 <div>
-                  <LocationsSelect name="pais"
-                  value={formData.pais}
-                  handleChange={handleChange}
-                  register={register} />
+                <LocationsSelect name="pais"
+                  value={formData.pais} 
+                  handleChange={handleChange} 
+                  register={register} 
+                />
+
+
+
                   
                 </div>
 

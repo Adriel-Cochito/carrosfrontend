@@ -16,10 +16,9 @@ import { useLocation } from 'react-router-dom';
 import { useParams } from 'react-router';
 import DefaultController from '../../../components/DefaultController';
 import GenderService from '../../../services/GenderService';
-import locationsService from '../../../services/locationsService';
-import LocationsService from '../../../services/locationsService';
 import StatusService from '../../../services/StatusService';
 import CarroService from '../../../services/CarroService';
+import LocationsService from 'src/services/LocationsService';
 
 
 const UsuarioFormEditValidacao:React.FC = () => {
