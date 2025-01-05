@@ -2,12 +2,16 @@ import axios from 'axios';
 import axiosInstance from 'src/infra/axiosInstance';
 
 class LoginService {
+
+  apiURL = process.env.REACT_APP_API_URL;
+
+
  logar (user: string, password: string) {
-    return axios.post('http://localhost:8080/api/usuarios/login', { email: user, password: password });
+    return axios.post(`${this.apiURL}/api/usuarios/login`, { email: user, password: password });
   }
 
   getMyProfile(){
-    return axiosInstance.get('http://localhost:8080/api/usuarios/my-profile')
+    return axiosInstance.get(`${this.apiURL}/api/usuarios/my-profile`)
   }
 }
 

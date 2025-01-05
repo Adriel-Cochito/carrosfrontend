@@ -1,5 +1,5 @@
 import { Box, Button, CircularProgress, Container, Paper, TextField, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import LoginService from 'src/services/LoginService';
 
@@ -10,6 +10,10 @@ const Login: React.FC = () => {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(process.env.REACT_APP_API_URL)
+  }, []);
 
   const handleLogin = () => {
     setLoading(true);
