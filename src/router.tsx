@@ -5,11 +5,7 @@ import { RouteObject } from 'react-router';
 import SidebarLayout from 'src/layouts/SidebarLayout';
 
 import SuspenseLoader from 'src/components/SuspenseLoader';
-import UsuarioFormValidacao from './content/management/CarroFormValidacao';
-import UsuarioEditForm from './content/management/CarroEditForm';
-import UsuarioFormEditValidacao from './content/management/CarroFormEditValidacao';
 import Login from './content/Login';
-import PrivateRouter from './privateRoute';
 import PrivateRoute from './privateRoute';
 import CarroFormEditValidacao from './content/management/CarroFormEditValidacao';
 import CarroFormValidacao from './content/management/CarroFormValidacao';

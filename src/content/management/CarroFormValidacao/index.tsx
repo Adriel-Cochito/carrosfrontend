@@ -18,7 +18,6 @@ import {
 import TextField from '@mui/material/TextField';
 import LocationsSelect from '../../../components/LocationsSelect';
 import DefaultSelect from '../../../components/DefaultSelect';
-import SpeciesService from '../../../services/SpeciesService';
 import carroService from '../../../services/CarroService';
 import toast, { Toaster } from 'react-hot-toast';
 import * as yup from 'yup';

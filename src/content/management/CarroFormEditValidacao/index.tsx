@@ -6,7 +6,6 @@ import { Box, Button, Card, CardContent, CardHeader, Container, Divider, Grid, M
 import TextField from '@mui/material/TextField';
 import LocationsSelect from '../../../components/LocationsSelect';
 import DefaultSelect from '../../../components/DefaultSelect';
-import SpeciesService from '../../../services/SpeciesService';
 import UsuarioService from '../../../services/CarroService';
 import toast, { Toaster } from 'react-hot-toast';
 import * as yup from 'yup';
@@ -15,7 +14,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useLocation } from 'react-router-dom';
 import { useParams } from 'react-router';
 import DefaultController from '../../../components/DefaultController';
-import GenderService from '../../../services/GenderService';
 import StatusService from '../../../services/StatusService';
 import CarroService from '../../../services/CarroService';
 import LocationsService from 'src/services/LocationsService';

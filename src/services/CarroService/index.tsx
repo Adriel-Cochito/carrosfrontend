@@ -32,7 +32,7 @@ class CarroService {
   }
 
   search(formData: { modelo: string; fabricante: string; status: string }) {
-    return axios.get<Carro[]>(this.apiURL,{
+    return axios.get<Carro[]>(this.apiURL+"/api/carros/search", {
       headers:{
         modelo: formData.modelo,
         fabricante: formData.fabricante,
