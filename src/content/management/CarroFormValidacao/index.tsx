@@ -72,7 +72,7 @@ const CarroFormValidacao:React.FC = () => {
     status?: string;
     ano?: number;
     cor?: string;
-    cavalosDePotencia?: number;
+    cavalosDePotencia: number;
   }
   
   const schema = yup.object().shape({
@@ -81,12 +81,12 @@ const CarroFormValidacao:React.FC = () => {
       .required("O nome é obrigatório")
       .min(3, "O nome deve ter mais de 3 letras.")
       .max(20, "O nome deve ter até 20 letras."),
-    fabricante: yup.string().optional(),
-    pais: yup.string(),
-    cor: yup.string().optional(),
-    ano: yup.number().optional(),
-    cavalosDePotencia: yup.number().optional(),
-    status: yup.string().optional(),
+    fabricante: yup.string().required("O fabricante é obrigatório"),
+    pais: yup.string().required("O pais é obrigatório"),
+    cor: yup.string().required("O cor é obrigatório"),
+    ano: yup.number().required("O ano é obrigatório"),
+    cavalosDePotencia: yup.number().required("Os cavalos de potencia é obrigatório"),
+    status: yup.string().required("O status é obrigatório")
   });
   
   const {
@@ -111,7 +111,7 @@ const CarroFormValidacao:React.FC = () => {
 
   const status = [
     {value: "Novo", label: "Novo" },
-    {value: "SemiNovo", label: "SemiNovo" },
+    {value: "Seminovo", label: "Seminovo" },
     {value: 'Usado', label: "Usado"}
 
   ]
@@ -213,6 +213,8 @@ const handleChange = (e) => {
                     label = "fabricante"
                     name = "fabricante"
                     {...register("fabricante")}
+                    error={!! errors.fabricante }
+                    helperText={errors.fabricante?.message}
 
                   />
 
@@ -225,6 +227,8 @@ const handleChange = (e) => {
                     label = "cor"
                     name = "cor"
                     {...register("cor")}
+                    error={!! errors.cor }
+                    helperText={errors.cor?.message}
 
                   />
 
@@ -236,6 +240,8 @@ const handleChange = (e) => {
                     name = "ano"
                     {...register("ano")}
                     type="number"
+                    error={!! errors.ano }
+                    helperText={errors.ano?.message}
                   />
 
 <TextField
@@ -245,7 +251,10 @@ const handleChange = (e) => {
                     label = "cavalosDePotencia"
                     name = "cavalosDePotencia"
                     {...register("cavalosDePotencia")}
+                    error={!! errors.cavalosDePotencia }
+                    helperText={errors.cavalosDePotencia?.message}
                     type="number"
+                    
 
                   />
 
@@ -256,6 +265,8 @@ const handleChange = (e) => {
                     label = "Status"
 
                     {...register('status')}
+                    error={!! errors.status }
+                    helperText={errors.status?.message}
                   >
                     {status.map((option) => (
                       <MenuItem key={option.value} value={option.value}>
@@ -271,6 +282,7 @@ const handleChange = (e) => {
                   value={formData.pais} 
                   handleChange={handleChange} 
                   register={register} 
+                  
                 />
 
 
